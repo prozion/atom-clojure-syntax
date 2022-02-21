@@ -1,0 +1,14 @@
+clojure_syntax
+	comment
+	def
+		deftype
+		function_name
+		parameter_name
+	let
+	literal kanskje-mulig:vector,map,set
+		keyword
+		string
+		regexp
+		
+	
+	

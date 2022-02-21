@@ -1,0 +1,20 @@
+﻿name: "Tabtree"
+scopeName: "source.tabtree"
+fileTypes: [
+  "clj"
+  "cljs"
+  "edn"
+]
+patterns: [
+  { include: "#comment" }
+
+  { include: "#deftype" }
+]
+repository:
+  deftype:
+    patterns: [
+      {
+        name: "clojure.def.deftype"
+        match: "(defn?|defmacro)"
+      }
+    ]

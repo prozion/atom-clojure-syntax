@@ -1,0 +1,15 @@
+{
+  "name": "language-clojure",
+  "version": "0.0.1",
+  "description": "Better Clojure syntax for Atom",
+  "repository": "https://github.com/prozion/atom-clojure-syntax",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prozion/atom-clojure-syntax"
+  },
+  "dependencies": {}
+}
