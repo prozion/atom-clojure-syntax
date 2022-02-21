@@ -1,0 +1,11 @@
+example	
+	one date:25.06.1990 type:travel
+	two code:`(+ 1 2)`
+	three number:100500
+	four money:250$
+	five place:Murmansk
+	four person:Gorbachev^meta
+	six text:"Flying southwards"
+	seven url:github.com
+	eight part:35%
+	nine path:/usr/local/bin

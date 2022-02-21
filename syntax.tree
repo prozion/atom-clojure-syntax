@@ -1,14 +1,26 @@
-clojure_syntax
-	comment
+clojure
+	header
+		namespace
+		require
+	special cases:let,if,when,cond,fn
 	def
-		deftype
-		function_name
-		parameter_name
-	let
+		definition_type
+		definition_name
+		definition_parameter
+	quote
+		symbol
+		empty_list
+		expression
+	function_name
 	literal kanskje-mulig:vector,map,set
-		keyword
+		number
 		string
+			escape
+			docstring
+		keyword
 		regexp
+	constant cases:nil,true,false
+	comment
 		
 	
 	

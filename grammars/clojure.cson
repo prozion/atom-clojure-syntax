@@ -6,15 +6,162 @@ fileTypes: [
   "edn"
 ]
 patterns: [
-  { include: "#comment" }
+  { include: "#namespace" }
+  { include: "#require" }
 
-  { include: "#deftype" }
+  { include: "#special" }
+
+  { include: "#definition_type" }
+  { include: "#defintion_name" }
+  { include: "#defintion_parameter" }
+
+  { include: "#symbol" }
+  { include: "#empty_list" }
+  { include: "#expression" }
+
+  { include: "#function_name" }
+
+  { include: "#number" }
+  { include: "#string" }
+  { include: "#docstring" }
+  { include: "#keyword" }
+  { include: "#regexp" }
+
+  { include: "#constant" }
+
+  { include: "#comment" }
 ]
 repository:
-  deftype:
+  namespace:
     patterns: [
       {
-        name: "clojure.def.deftype"
-        match: "(defn?|defmacro)"
+        name: "clojure.header.namespace"
+        match: "(?<=\\()ns\\b"
+      }
+    ]
+  require:
+    patterns: [
+      {
+        name: "clojure.header.require"
+        match: "(?<=\\()(use|require)\\b"
+      }
+    ]
+  special:
+    patterns: [
+      {
+        name: "clojure.special"
+        match: "ABC"
+      }
+    ]
+  definition_type:
+    patterns: [
+      {
+        name: "clojure.def.definition_type"
+        match: "(?<=\\()(defmacro|defn?)\\b"
+      }
+    ]
+  definition_name:
+    patterns: [
+      {
+        name: "clojure.def.definition_name"
+        match: "ABC"
+      }
+    ]
+  definition_parameter:
+    patterns: [
+      {
+        name: "clojure.def.definition_parameter"
+        match: "ABC"
+      }
+    ]
+  symbol:
+    patterns: [
+      {
+        name: "clojure.quote.symbol"
+        match: "ABC"
+      }
+    ]
+  empty_list:
+    patterns: [
+      {
+        name: "clojure.quote.empty_list"
+        match: "ABC"
+      }
+    ]
+  expression:
+    patterns: [
+      {
+        name: "clojure.quote.expression"
+        match: "ABC"
+      }
+    ]
+  function_name:
+    patterns: [
+      {
+        name: "clojure.function_name"
+        match: "ABC"
+      }
+    ]
+  number:
+    patterns: [
+      {
+        name: "clojure.literal.number"
+        match: "ABC"
+      }
+    ]
+  string:
+    patterns: [
+      {
+        name: "clojure.literal.string"
+        begin: "(\")"
+        end: "(\")"
+        patterns: [
+          {
+            match: "\\\\."
+            name: "clojure.literal.string.escape"
+          }
+        ]
+      }
+    ]
+  docstring:
+    patterns: [
+      {
+        name: "clojure.literal.docstring"
+        match: "ABC"
+      }
+    ]
+  keyword:
+    patterns: [
+      {
+        name: "clojure.literal.keyword"
+        match: "(?<=[^[:alnum:]]):.*?(\\s\\b)"
+      }
+    ]
+  regexp:
+    patterns: [
+      {
+        name: "clojure.literal.regexp"
+        begin: "(#\")"
+        end: "(\")"
+        patterns: [
+          {
+            match: "\\\\."
+            name: "clojure.literal.string.escape"
+          }
+        ]
+      }
+    ]
+  constant:
+    patterns: [
+      {
+        name: "clojure.constant"
+        match: "(true|false|nil|\\b[A-Z][A-Z0-9_\\-]*\\b)"
+      }
+    ]
+  comment:
+    patterns: [
+      {
+        name: "clojure.comment"
+        match: "(;).*$\\n?"
       }
     ]
