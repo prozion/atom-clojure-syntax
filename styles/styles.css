@@ -3,23 +3,29 @@
 
 .syntax--clojure.syntax--special { font-weight: bold; color: #000; }
 
-.syntax--clojure.syntax--def.syntax--definition_type { font-weight: bold; color: #a626a4; }
-.syntax--clojure.syntax--def.syntax--definition_name { font-weight: normal; color: #f00; }
-.syntax--clojure.syntax--def.syntax--definition_parameter { font-weight: normal; color: #f00; }
+.syntax--clojure.syntax--quote.syntax--symbol { font-weight: normal; color: red; }
+.syntax--clojure.syntax--quote.syntax--expression { font-weight: normal; color: red; }
 
-.syntax--clojure.syntax--quote.syntax--symbol { font-weight: normal; color: #f00; }
-.syntax--clojure.syntax--quote.syntax--empty_list { font-weight: normal; color: #f00; }
-.syntax--clojure.syntax--quote.syntax--expression { font-weight: normal; color: #f00; }
+.syntax--clojure.syntax--quasiquote { font-weight: normal; color: red; }
 
-.syntax--clojure.syntax--quote.syntax--finction_name { font-weight: normal; color: #f00; }
+.syntax--clojure.syntax--definition.syntax--definition_type { font-weight: bold; color: #a626a4; }
+.syntax--clojure.syntax--definition.syntax--definition_name { font-weight: bold; color: #986801; }
+.syntax--clojure.syntax--definition.syntax--definition_parameter { font-weight: normal; color: #3e5c82; }
 
-.syntax--clojure.syntax--literal.syntax--number { font-weight: normal; color: #f00; }
+.syntax--clojure.syntax--function.syntax--function_name.syntax--core_function { font-weight: normal; color: #a11836; }
+.syntax--clojure.syntax--function.syntax--function_name.syntax--other_function { font-weight: normal; color: #1b4985; }
+.syntax--clojure.syntax--function.syntax--argument { font-weight: normal; color: red; }
+
+.syntax--clojure.syntax--literal.syntax--annotation { font-weight: normal; font-style: italic; color: #6d8f7f; }
+.syntax--clojure.syntax--literal.syntax--character { font-weight: normal; color: darkred; }
+.syntax--clojure.syntax--literal.syntax--character.syntax--escape { font-weight: normal; color: #e00; }
+.syntax--clojure.syntax--literal.syntax--number { font-weight: normal; color: #3377ff; }
+.syntax--clojure.syntax--literal.syntax--number.syntax--hex { font-weight: normal; color: red; }
 .syntax--clojure.syntax--literal.syntax--string { font-weight: normal; color: #50a14f; }
-.syntax--clojure.syntax--literal.syntax--string.syntax--escape { font-weight: normal; color: #f00; }
-.syntax--clojure.syntax--literal.syntax--docstring { font-weight: normal; color: #f00; }
+.syntax--clojure.syntax--literal.syntax--string.syntax--escape { font-weight: normal; color: #e00; }
 .syntax--clojure.syntax--literal.syntax--keyword { font-weight: normal; color: #e95649; }
-.syntax--clojure.syntax--literal.syntax--regexp { font-weight: normal; color: #5E13B2; }
+.syntax--clojure.syntax--literal.syntax--regexp { font-weight: normal; color: #469699; }
+.syntax--clojure.syntax--literal.syntax--constant { font-weight: normal; color: #5E13B2; }
 
-.syntax--clojure.syntax--constant { font-weight: normal; color: #5E13B2; }
-
-.syntax--clojure.syntax--comment { font-weight: normal; color: #999; }
+.syntax--clojure.syntax--comment { font-weight: normal; font-style:italic; color: #999; }
+.syntax--clojure.syntax--comment.syntax--docstring { font-weight: normal; font-style:italic; color: #469699; }

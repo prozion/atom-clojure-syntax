@@ -11,16 +11,19 @@ patterns: [
 
   { include: "#special" }
 
+  { include: "#expression" }
   { include: "#definition_type" }
-  { include: "#defintion_name" }
-  { include: "#defintion_parameter" }
+  { include: "#definition_name" }
+  { include: "#definition_parameter" }
 
   { include: "#symbol" }
   { include: "#empty_list" }
   { include: "#expression" }
 
-  { include: "#function_name" }
+  { include: "#core_function" }
+  { include: "#other_function" }
 
+  { include: "#annotation" }
   { include: "#number" }
   { include: "#string" }
   { include: "#docstring" }
@@ -46,67 +49,211 @@ repository:
         match: "(?<=\\()(use|require)\\b"
       }
     ]
+  definition_type:
+    patterns: [
+      {
+        name: "clojure.header.require"
+        match: "(?<=\\()(use|require)\\b"
+      }
+    ]
   special:
     patterns: [
       {
         name: "clojure.special"
-        match: "ABC"
+        match: '''
+          (?x)
+          						(?<=\\() # preceded by (
+          						( do|if-not|if|when-not|when|case|
+                        loop|doseq|recur|
+          						  cond|
+                        let|
+                        =|not=|
+                        or\\*?|and\\*?|not\\*?
+                      )
+          						(?=(\\s|\\())
+        '''
       }
     ]
-  definition_type:
+  core_function:
     patterns: [
       {
-        name: "clojure.def.definition_type"
-        match: "(?<=\\()(defmacro|defn?)\\b"
+        name: "clojure.function.function_name.core_function"
+        match: '''
+          (?x)
+          						(?<=(\\(|\\[)) # preceded by ( or \[
+          						(list|cons|rest|conj|second|(f|n)?first|(f|n)?next|seq|instance\\??|seq\\??|char\\??|string\\??|map?|vector\\??|assoc|meta|with-meta|assert-valid-fdecl|sigs|last|butlast|to-array|cast|vector|vec|hash-(map|set)|sorted-(map|map-by|set|set-by)|nil\\?|false\\?|true\\?|boolean\\??|not|some\\??|any\\??|str|symbol\\??|keyword\\??|symbol|gensym|keyword|find-keyword|spread|list*?|apply|vary-meta|lazy-seq|chunk|chunk-(append|buffer|first|rest|next|cons)|chunked-seq\\??|concat|delay\\??|force|identical\\??|compare|zero\\?|count|int|nth|inc'?|reduce1|reverse|complement|constantly|identity|name|namespace|boolean|ident\\??|simple-ident\\??|qualified-ident\\??|simple-symbol\\??|qualified-symbol\\??|locking)
+          						(?=(\\s|\\())
+        '''
       }
     ]
-  definition_name:
+  expression:
+    # begin: "(\\()"
+    # beginCaptures:
+    #   "1":
+    #     name: "clojure.expression.begin"
+    # end: "(\\))(\\n)?"
+    # endCaptures:
+    #   "1":
+    #     name: "clojure.expression.end"
+    #   "2":
+    #     name: "clojure.expression.after_expression"
+    # name: "clojure.expression"
     patterns: [
       {
-        name: "clojure.def.definition_name"
-        match: "ABC"
+        name: "clojure.expression.definition"
+        begin: '''
+          (?x)
+          						(?<=\\()       # preceded by (
+          						(defn|defmacro)\\s+
+                      ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\\s+
+          						(\\[)          # list of parameters
+          						  (([\\s,]*?
+          						    ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*|[._])
+          						   )*
+          						  )\\s*
+                        (\\n\\"[^\\"]*\\")?
+          						(\\])
+
+        '''
+        captures:
+          "1":
+            name: "clojure.definition.definition_type"
+          "2":
+            name: "clojure.definition.definition_name"
+          "4":
+            name: "clojure.definition.definition_parameter"
+          "7":
+            name: "clojure.comment.docstring"
+          "8":
+            name: "clojure.expression.punctuation"
+        end: "(?=\\))"
+        patterns: [
+          {
+            include: "#annotation"
+          }
+          {
+            include: "#comment"
+          }
+          {
+            include: "#sexp"
+          }
+          {
+            include: "#special"
+          }
+        ]
       }
-    ]
-  definition_parameter:
-    patterns: [
       {
-        name: "clojure.def.definition_parameter"
-        match: "ABC"
+        name: "clojure.expression.lambda"
+        begin: '''
+          (?x)
+          						(?<=\\() # preceded by (
+          						(fn)\\s+
+          						(\\[) # opening paren
+          						((
+          						  ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*|[._])
+          						  \\s+
+          						)*)
+          						(\\]) #closing paren
+
+        '''
+        captures:
+          "1":
+            name: "clojure.definition.definition_type"
+          "3":
+            name: "clojure.definition.definition_parameter"
+        comment: '''
+
+          						Not sure this one is quite correct.  That \s* is
+          						particularly troubling
+
+        '''
+        end: "(?=\\))"
+        patterns: [
+          {
+            include: "#annotation"
+          }
+          {
+            include: "#comment"
+          }
+          {
+            include: "#sexp"
+          }
+        ]
+      }
+      {
+        name: "clojure.expression.definition"
+        begin: "(?<=\\()(def)\\s([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\\s*.*?"
+        captures:
+          "1":
+            name: "clojure.definition.definition_type"
+          "2":
+            name: "clojure.definition.definition_name"
+        end: "(?=\\))"
+        patterns: [
+          {
+            include: "#annotation"
+          }
+          {
+            include: "#comment"
+          }
+          {
+            include: "#sexp"
+          }
+          {
+            include: "#string"
+          }
+        ]
+      }
+      {
+        include: "#core-function"
+      }
+      {
+        include: "#string"
+      }
+      {
+        include: "#regexp"
+      }
+      {
+        include: "#keyword"
+      }
+      {
+        include: "#constant"
+      }
+
+      {
+        match: "(?<=[\\(\\s])(#\\\\)x[0-9A-F]{2,4}(?=[\\s\\)])"
+        name: "clojure.literal.number.hex"
+      }
+      {
+        match: "(?<=[\\(\\s])(#\\\\).(?=[\\s\\)])"
+        name: "clojure.literal.character.escape"
+      }
+      {
+        name: "clojure.function.function_name"
+        match: "(?<=\\()(\\w[A-Za-z0-9_\\-/]*)\\b"
+        captures:
+          "1":
+            name: "clojure.function.function_name.other_function"
+      }
+      {
+        include: "#sexp"
+      }
+      {
+        include: "#illegal"
       }
     ]
   symbol:
     patterns: [
       {
         name: "clojure.quote.symbol"
-        match: "ABC"
-      }
-    ]
-  empty_list:
-    patterns: [
-      {
-        name: "clojure.quote.empty_list"
-        match: "ABC"
-      }
-    ]
-  expression:
-    patterns: [
-      {
-        name: "clojure.quote.expression"
-        match: "ABC"
-      }
-    ]
-  function_name:
-    patterns: [
-      {
-        name: "clojure.function_name"
-        match: "ABC"
+        match: "'[0-9a-zA-Z_]+"
       }
     ]
   number:
     patterns: [
       {
         name: "clojure.literal.number"
-        match: "ABC"
+        match: "\\b[0-9][0-9.Ee]*"
       }
     ]
   string:
@@ -123,18 +270,21 @@ repository:
         ]
       }
     ]
-  docstring:
+  annotation:
     patterns: [
       {
-        name: "clojure.literal.docstring"
-        match: "ABC"
+        name: "clojure.literal.annotation"
+        # match: "(?<=[\\s\\(\\[\\{])^.+?(\\s|\\b)"
+        match: "\\^[a-zA-Z0-9_:']+?(?=\\s)"
+        # match: "^.+?(?=\\s)"
+        # match: "\\^aot"
       }
     ]
   keyword:
     patterns: [
       {
         name: "clojure.literal.keyword"
-        match: "(?<=[^[:alnum:]]):.*?(\\s\\b)"
+        match: "(?<=[^0-9a-zA-Z\\^]):.+?(?=(\\s|\\b))"
       }
     ]
   regexp:
@@ -154,7 +304,7 @@ repository:
   constant:
     patterns: [
       {
-        name: "clojure.constant"
+        name: "clojure.literal.constant"
         match: "(true|false|nil|\\b[A-Z][A-Z0-9_\\-]*\\b)"
       }
     ]
@@ -163,5 +313,13 @@ repository:
       {
         name: "clojure.comment"
         match: "(;).*$\\n?"
+      }
+    ]
+  docstring:
+    patterns: [
+      {
+        name: "clojure.comment.docstring"
+        begin: "(\")"
+        end: "(\")"
       }
     ]

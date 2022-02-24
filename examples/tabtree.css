@@ -19,3 +19,4 @@
 .syntax--tabtree.syntax--object.syntax--string { color: #50a14f; }
 .syntax--tabtree.syntax--object.syntax--time { color: #5E13B2; }
 .syntax--tabtree.syntax--object.syntax--type { font-weight: bold; color: #986801; }
+.syntax--tabtree.syntax--suffix.syntax--meta { font-weight: normal; color: #91B3A3; }

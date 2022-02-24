@@ -3,24 +3,39 @@ clojure
 		namespace
 		require
 	special cases:let,if,when,cond,fn
-	def
+	quote
+		symbol
+		expression
+	quasiquote
+	definition
 		definition_type
 		definition_name
 		definition_parameter
-	quote
-		symbol
-		empty_list
-		expression
-	function_name
+	function
+		function_name
+			core_function
+			other_function
+		argument
+	expression
+		begin
+		punctuation
+		definition ref:<t>
+		function ref:<t>
+		lambda
+		end
 	literal kanskje-mulig:vector,map,set
+		annotation
+		character
+			escape
 		number
+			hex
 		string
 			escape
-			docstring
 		keyword
 		regexp
-	constant cases:nil,true,false
+		constant cases:nil,true,false
 	comment
+		docstring
 		
 	
 	
