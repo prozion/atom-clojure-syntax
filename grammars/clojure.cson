@@ -80,9 +80,9 @@ repository:
         name: "clojure.function.function_name.core_function"
         match: '''
           (?x)
-          						(?<=(\\(|\\[)) # preceded by ( or \[
+          						(?<=\\()
           						(list|cons|rest|conj|second|(f|n)?first|(f|n)?next|seq|instance\\??|seq\\??|char\\??|string\\??|map?|vector\\??|assoc|meta|with-meta|assert-valid-fdecl|sigs|last|butlast|to-array|cast|vector|vec|hash-(map|set)|sorted-(map|map-by|set|set-by)|nil\\?|false\\?|true\\?|boolean\\??|not|some\\??|any\\??|str|symbol\\??|keyword\\??|symbol|gensym|keyword|find-keyword|spread|list*?|apply|vary-meta|lazy-seq|chunk|chunk-(append|buffer|first|rest|next|cons)|chunked-seq\\??|concat|delay\\??|force|identical\\??|compare|zero\\?|count|int|nth|inc'?|reduce1|reverse|complement|constantly|identity|name|namespace|boolean|ident\\??|simple-ident\\??|qualified-ident\\??|simple-symbol\\??|qualified-symbol\\??|locking)
-          						(?=(\\s|\\())
+          						(?=\\()
         '''
       }
     ]
@@ -105,6 +105,7 @@ repository:
           (?x)
           						(?<=\\()       # preceded by (
           						(defn|defmacro)\\s+
+                      (\\^.*?\\s)?
                       ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\\s+
           						(\\[)          # list of parameters
           						  (([\\s,]*?
@@ -119,14 +120,15 @@ repository:
           "1":
             name: "clojure.definition.definition_type"
           "2":
+            name: "clojure.literal.annotation"
+          "3":
             name: "clojure.definition.definition_name"
-          "4":
+          "5":
             name: "clojure.definition.definition_parameter"
-          "7":
-            name: "clojure.comment.docstring"
           "8":
+            name: "clojure.comment.docstring"
+          "9":
             name: "clojure.expression.punctuation"
-        end: "(?=\\))"
         patterns: [
           {
             include: "#annotation"
@@ -140,7 +142,14 @@ repository:
           {
             include: "#special"
           }
+          {
+            include: "#core_function"
+          }
+          {
+            include: "#other_function"
+          }
         ]
+        end: "(?=\\))"
       }
       {
         name: "clojure.expression.lambda"
@@ -151,7 +160,7 @@ repository:
           						(\\[) # opening paren
           						((
           						  ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*|[._])
-          						  \\s+
+          						  \\s*
           						)*)
           						(\\]) #closing paren
 
@@ -159,7 +168,7 @@ repository:
         captures:
           "1":
             name: "clojure.definition.definition_type"
-          "3":
+          "4":
             name: "clojure.definition.definition_parameter"
         comment: '''
 
@@ -178,15 +187,27 @@ repository:
           {
             include: "#sexp"
           }
+          {
+            include: "#special"
+          }
+          {
+            include: "#core_function"
+          }
+          {
+            include: "#other_function"
+          }
         ]
       }
       {
         name: "clojure.expression.definition"
-        begin: "(?<=\\()(def)\\s([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\\s*.*?"
+        # begin: "(?<=\\()(def)\\s(^[[:alnum]\\:]+\\s)?([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\\s*.*?"
+        begin: "(?<=\\()(def)\\s(\\^.*?\\s)?([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\\s*.*?"
         captures:
           "1":
             name: "clojure.definition.definition_type"
           "2":
+            name: "clojure.literal.annotation"
+          "3":
             name: "clojure.definition.definition_name"
         end: "(?=\\))"
         patterns: [
@@ -201,6 +222,9 @@ repository:
           }
           {
             include: "#string"
+          }
+          {
+            include: "#constant"
           }
         ]
       }

@@ -6,13 +6,25 @@
 
 (def a 10)
 
-((fn [x] (* x 2)) 10)
-
+((fn [x] 
+  (let [a 100] 
+    (println "hello")
+    ((rand-int (* x a))))))
+    
+;; TODO
+;; 1) first line after defintion doesn't highlight
+;; 2) core_function doesn't take their color
 (defn strip-ns [s doowee]
+  (reverse "fg")
+  (println "foo")
+  (println 30)
   (let [astr (str s)]
     (if (indexof? 'a 10)
       #"foo\"s"
       200)))
+
+(defn ^String foo [bar]
+  "baz")
       
 (+ 200.5 nil TERIBERKA)
 
@@ -21,6 +33,9 @@
 (+ 10 20)
 (foo "sddd")
 (reduce 1 2 3)
+(println "hrllo wr")
+
+(reverse [1 2 3])
 
 ^aot
 
