@@ -104,16 +104,17 @@ repository:
         begin: '''
           (?x)
           						(?<=\\()       # preceded by (
-          						(defn|defmacro)\\s+
-                      (\\^.*?\\s)?
-                      ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\\s+
-          						(\\[)          # list of parameters
+          						(defn|defmacro)[\\s\\n]+ # 1.
+                      (\\^.*?\\s)? # 2. annotation
+                      ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\\s+ # 3. name
+                      (\\"[^\\"]*\\"\\s\\n?)? # 4. docstring
+          						(\\[)
           						  (([\\s,]*?
-          						    ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*|[._])
+          						    ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*|[._]) # 5. list of parameters
           						   )*
           						  )\\s*
-                        (\\n\\"[^\\"]*\\")?
           						(\\])
+
 
         '''
         captures:
@@ -123,16 +124,11 @@ repository:
             name: "clojure.literal.annotation"
           "3":
             name: "clojure.definition.definition_name"
+          "4":
+            name: "clojure.comment.docstring"
           "5":
             name: "clojure.definition.definition_parameter"
-          "8":
-            name: "clojure.comment.docstring"
-          "9":
-            name: "clojure.expression.punctuation"
         patterns: [
-          {
-            include: "#annotation"
-          }
           {
             include: "#comment"
           }
@@ -141,6 +137,9 @@ repository:
           }
           {
             include: "#special"
+          }
+          {
+            include: "#number"
           }
           {
             include: "#core_function"
@@ -170,12 +169,6 @@ repository:
             name: "clojure.definition.definition_type"
           "4":
             name: "clojure.definition.definition_parameter"
-        comment: '''
-
-          						Not sure this one is quite correct.  That \s* is
-          						particularly troubling
-
-        '''
         end: "(?=\\))"
         patterns: [
           {
@@ -225,6 +218,9 @@ repository:
           }
           {
             include: "#constant"
+          }
+          {
+            include: "#number"
           }
         ]
       }

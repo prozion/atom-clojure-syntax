@@ -4,13 +4,17 @@
 
 (def ^:dynamic ns false)
 
+(defn foo "I don't do a whole lot."
+  [x]
+  (println x "Hello, World!"))
+
 (def a 10)
 
-((fn [x] 
-  (let [a 100] 
+((fn [x]
+  (let [a 100]
     (println "hello")
     ((rand-int (* x a))))))
-    
+
 ;; TODO
 ;; 1) first line after defintion doesn't highlight
 ;; 2) core_function doesn't take their color
@@ -23,9 +27,12 @@
       #"foo\"s"
       200)))
 
-(defn ^String foo [bar]
+(defn ^String foo "docstring" [bar]
   "baz")
-      
+
+(defn func [bar]
+  "baz")
+
 (+ 200.5 nil TERIBERKA)
 
 {:foo 100 :bar "acti\"on"}
@@ -43,5 +50,3 @@
   ((= i 0) 1)
   ((not= i 10) nil)
   1e50)
-  
-  
