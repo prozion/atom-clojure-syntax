@@ -136,7 +136,7 @@ repository:
       {
         name: "clojure.expression.definition"
         # begin: "(?<=\\()(def)\\s(^[[:alnum]\\:]+\\s)?([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\\s*.*?"
-        begin: "(?<=\\()(def)\\s(\\^.*?\\s)?([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\\s*.*?"
+        begin: "(?<=\\()(def)\\s(\\^.*?\\s)?([[:alnum:]!$%&*+-./:<=>?@^_~]+)\\s*.*?"
         captures:
           "1":
             name: "clojure.definition.definition_type"
