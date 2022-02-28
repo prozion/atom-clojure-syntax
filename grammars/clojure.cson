@@ -1,5 +1,5 @@
-﻿name: "Tabtree"
-scopeName: "source.tabtree"
+﻿name: "Clojure"
+scopeName: "source.clojure"
 fileTypes: [
   "clj"
   "cljs"
