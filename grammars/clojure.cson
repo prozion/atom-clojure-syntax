@@ -90,7 +90,7 @@ repository:
                       \\s*
                       (\\^[[:alnum:]:]+?)? # 2. annotation
                       \\s*
-                      ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*) # 3. name
+                      ([[:alnum:]!$%&*+-./:<=>?@^_~]*) # 3. name
                       \\s*
                       (\\"[^\\"]*\\")? # 4. docstring
                       \\s*
