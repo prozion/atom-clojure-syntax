@@ -49,13 +49,6 @@ repository:
         match: "(?<=\\()(use|require)\\b"
       }
     ]
-  definition_type:
-    patterns: [
-      {
-        name: "clojure.header.require"
-        match: "(?<=\\()(use|require)\\b"
-      }
-    ]
   special:
     patterns: [
       {
@@ -81,41 +74,31 @@ repository:
         match: '''
           (?x)
           						(?<=\\()
-          						(list|cons|rest|conj|second|(f|n)?first|(f|n)?next|seq|instance\\??|seq\\??|char\\??|string\\??|map?|vector\\??|assoc|meta|with-meta|assert-valid-fdecl|sigs|last|butlast|to-array|cast|vector|vec|hash-(map|set)|sorted-(map|map-by|set|set-by)|nil\\?|false\\?|true\\?|boolean\\??|not|some\\??|any\\??|str|symbol\\??|keyword\\??|symbol|gensym|keyword|find-keyword|spread|list*?|apply|vary-meta|lazy-seq|chunk|chunk-(append|buffer|first|rest|next|cons)|chunked-seq\\??|concat|delay\\??|force|identical\\??|compare|zero\\?|count|int|nth|inc'?|reduce1|reverse|complement|constantly|identity|name|namespace|boolean|ident\\??|simple-ident\\??|qualified-ident\\??|simple-symbol\\??|qualified-symbol\\??|locking)
-          						(?=\\()
+          						(list|cons|rest|conj|second|(f|n)?first|(f|n)?next|seq|instance\\??|seq\\??|char\\??|string\\??|map?|vector\\??|assoc|meta|with-meta|assert-valid-fdecl|sigs|last|butlast|to-array|cast|vector|vec|hash-(map|set)|sorted-(map|map-by|set|set-by)|nil\\?|false\\?|true\\?|boolean\\??|not|some\\??|any\\??|str|symbol\\??|keyword\\??|symbol|gensym|keyword|find-keyword|spread|list*?|apply|vary-meta|lazy-seq|chunk|chunk-(append|buffer|first|rest|next|cons)|chunked-seq\\??|concat|delay\\??|force|identical\\??|compare|zero\\?|count|int|nth|inc'?|reduce1|reverse|complement|constantly|identity|name|namespace|boolean|ident\\??|simple-ident\\??|qualified-ident\\??|simple-symbol\\??|qualified-symbol\\??|locking|comp|juxt|partial|sequence|every\\?|not-every\\?|some\\?|not-any\\?|dotimes|map|declare|mapcat|filter|remove|reduced\\??|ensure-reduced|unreduced|take|take-while|drop|drop-last|take-last|drop-while|cycle|split-at|split-with|repeat|replicate|iterate|range|merge|merge-with|line-seq|comparator|sort|sort-by|dorun|doall|nthnext|nthrest|partition
+                      )
         '''
       }
     ]
   expression:
-    # begin: "(\\()"
-    # beginCaptures:
-    #   "1":
-    #     name: "clojure.expression.begin"
-    # end: "(\\))(\\n)?"
-    # endCaptures:
-    #   "1":
-    #     name: "clojure.expression.end"
-    #   "2":
-    #     name: "clojure.expression.after_expression"
-    # name: "clojure.expression"
     patterns: [
       {
         name: "clojure.expression.definition"
         begin: '''
           (?x)
           						(?<=\\()       # preceded by (
-          						(defn|defmacro)[\\s\\n]+ # 1.
-                      (\\^.*?\\s)? # 2. annotation
-                      ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\\s+ # 3. name
-                      (\\"[^\\"]*\\"\\s\\n?)? # 4. docstring
+          						(defn|defmacro) # 1.
+                      \\s*
+                      (\\^[[:alnum:]:]+?)? # 2. annotation
+                      \\s*
+                      ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*) # 3. name
+                      \\s*
+                      (\\"[^\\"]*\\")? # 4. docstring
+                      \\s*
           						(\\[)
-          						  (([\\s,]*?
-          						    ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*|[._]) # 5. list of parameters
-          						   )*
-          						  )\\s*
-          						(\\])
-
-
+          						  (([\\s,]*
+          						    ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*) # 5. list of parameters
+          						   )*?
+          						  )\\s*(?=\\])
         '''
         captures:
           "1":
@@ -126,29 +109,10 @@ repository:
             name: "clojure.definition.definition_name"
           "4":
             name: "clojure.comment.docstring"
-          "5":
+          "6":
             name: "clojure.definition.definition_parameter"
-        patterns: [
-          {
-            include: "#comment"
-          }
-          {
-            include: "#sexp"
-          }
-          {
-            include: "#special"
-          }
-          {
-            include: "#number"
-          }
-          {
-            include: "#core_function"
-          }
-          {
-            include: "#other_function"
-          }
-        ]
-        end: "(?=\\))"
+        # end: "(?=\\))"
+        end: "(?=\\])"
       }
       {
         name: "clojure.expression.lambda"
@@ -157,39 +121,17 @@ repository:
           						(?<=\\() # preceded by (
           						(fn)\\s+
           						(\\[) # opening paren
-          						((
-          						  ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*|[._])
-          						  \\s*
-          						)*)
-          						(\\]) #closing paren
-
+          						  (([\\s,]*?
+          						    ([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*|[._])
+          						   )*
+          						  )\\s*(?=\\])
         '''
         captures:
           "1":
             name: "clojure.definition.definition_type"
-          "4":
+          "3":
             name: "clojure.definition.definition_parameter"
-        end: "(?=\\))"
-        patterns: [
-          {
-            include: "#annotation"
-          }
-          {
-            include: "#comment"
-          }
-          {
-            include: "#sexp"
-          }
-          {
-            include: "#special"
-          }
-          {
-            include: "#core_function"
-          }
-          {
-            include: "#other_function"
-          }
-        ]
+        end: "(?=\\])"
       }
       {
         name: "clojure.expression.definition"
@@ -225,7 +167,7 @@ repository:
         ]
       }
       {
-        include: "#core-function"
+        include: "#core_function"
       }
       {
         include: "#string"
@@ -254,12 +196,6 @@ repository:
         captures:
           "1":
             name: "clojure.function.function_name.other_function"
-      }
-      {
-        include: "#sexp"
-      }
-      {
-        include: "#illegal"
       }
     ]
   symbol:

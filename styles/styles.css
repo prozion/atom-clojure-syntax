@@ -12,7 +12,7 @@
 .syntax--clojure.syntax--definition.syntax--definition_name { font-weight: bold; color: #986801; }
 .syntax--clojure.syntax--definition.syntax--definition_parameter { font-weight: normal; color: #3e5c82; }
 
-.syntax--clojure.syntax--function.syntax--function_name.syntax--core_function { font-weight: normal; color: #a11836; }
+.syntax--clojure.syntax--function.syntax--function_name.syntax--core_function { font-weight: bold; color: #1b4985; }
 .syntax--clojure.syntax--function.syntax--function_name.syntax--other_function { font-weight: normal; color: #1b4985; }
 .syntax--clojure.syntax--function.syntax--argument { font-weight: normal; color: red; }
 

@@ -8,21 +8,33 @@
   [x]
   (println x "Hello, World!"))
 
+(defn
+  bar [x]
+  "foo")
+
+(defn bar
+  [x]
+  "foo")
+
 (def a 10)
 
-((fn [x]
-  (let [a 100]
+((fn [xah lee]
+  (let [a 100
+        x 10
+        c "foo"
+        d 3]
     (println "hello")
-    ((rand-int (* x a))))))
+    (rand-int (* x a))))
+  100)
 
 ;; TODO
-;; 1) first line after defintion doesn't highlight
-;; 2) core_function doesn't take their color
+;; 4) break highlight if new line between defn and vector of parameters
 (defn strip-ns [s doowee]
-  (reverse "fg")
-  (println "foo")
-  (println 30)
-  (let [astr (str s)]
+  (println "hello")
+  (reverse "foo")
+  (let [astr 10
+        c "foo"
+        a 1001]
     (if (indexof? 'a 10)
       #"foo\"s"
       200)))
@@ -33,12 +45,18 @@
 (defn func [bar]
   "baz")
 
+(let [a 100
+      b 200
+      c "foo"]
+  (println (+ a b)))
+
 (+ 200.5 nil TERIBERKA)
 
 {:foo 100 :bar "acti\"on"}
 
 (+ 10 20)
 (foo "sddd")
+(first (range 1 10))
 (reduce 1 2 3)
 (println "hrllo wr")
 
