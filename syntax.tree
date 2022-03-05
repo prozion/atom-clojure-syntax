@@ -34,6 +34,7 @@ clojure
 		keyword
 		regexp
 		constant cases:nil,true,false
+	dynamic
 	comment
 		docstring
 		

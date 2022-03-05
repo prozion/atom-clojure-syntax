@@ -27,5 +27,7 @@
 .syntax--clojure.syntax--literal.syntax--regexp { font-weight: normal; color: #469699; }
 .syntax--clojure.syntax--literal.syntax--constant { font-weight: normal; color: #5E13B2; }
 
+.syntax--clojure.syntax--dynamic { font-weight: bold; color: #16a2d9; }
+
 .syntax--clojure.syntax--comment { font-weight: normal; font-style:italic; color: #999; }
 .syntax--clojure.syntax--comment.syntax--docstring { font-weight: normal; font-style:italic; color: #469699; }
