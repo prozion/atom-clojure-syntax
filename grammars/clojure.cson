@@ -138,7 +138,7 @@ repository:
       {
         name: "clojure.expression.definition"
         # begin: "(?<=\\()(def)\\s(^[[:alnum]\\:]+\\s)?([[:alnum:]][[:alnum:]!$%&*+-./:<=>?@^_~]*)\\s*.*?"
-        begin: "(?<=\\()(def)\\s(\\^.*?\\s)?([[:alnum:]!$%&*+-./:<=>?@^_~]+)\\s*.*?"
+        begin: "(?<=\\()(def)\\s(\\^.*?\\s)?([[:alnum:]!$%&*+-./:<=>?@^_~]+)"
         captures:
           "1":
             name: "clojure.definition.definition_type"
@@ -146,7 +146,7 @@ repository:
             name: "clojure.literal.annotation"
           "3":
             name: "clojure.definition.definition_name"
-        end: "(?=\\))"
+        end: "(?=\\s)"
         patterns: [
           {
             include: "#annotation"
